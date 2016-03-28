@@ -1,0 +1,95 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="./elasticjs.html">
+<link rel="import" href="./lodash.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+        <elastic-client-aggregation-builder
+            field: "fieldName"
+            name: "aggName"
+            type: "terms"
+            count: "15"
+            ejs-aggregation: "{{ejsAgg}}"
+        >
+        </elastic-client-aggregation>
+
+@demo demo/index.html
+-->
+
+<dom-module id="elastic-client-aggregation-builder">
+    <template>
+    </template>
+
+    <script>
+        (function() {
+            Polymer({
+                is: 'elastic-client-aggregation-builder',
+
+                properties: {
+
+                    field: {
+                        type: String
+                    },
+
+                    name: {
+                        type: String
+                    },
+
+                    type: {
+                        type: String
+                    },
+
+                    ejsAggregation: {
+                        type: Object,
+                        readOnly: true,
+                        notify: true
+                    },
+
+                    /**
+                     * the size count for aggregations which support size
+                    */
+                    count: {
+                        type: Number,
+                        value: 10
+                    }
+                },
+
+                observers : [
+                    'buildAggregation(field, name, type)'
+                ],
+
+                buildAggregation: function(field, name, type) {
+                    if(type === 'terms') {
+                        this.buildTermsAggregation(field, name);
+                    }
+                    if(type === 'min') {
+                        this.buildMinAggregations(field, name);
+                    }
+                    if(type === 'max') {
+                        this.buildMaxAggregations(field, name);
+                    }
+                },
+
+                buildTermsAggregation: function(field, name) {
+                    var agg = ejs.TermsAggregation(name).field(field);
+                    if(this.count) {
+                        agg = agg.size(this.count);
+                    }
+
+                    this._setEjsAggregation(agg);
+                },
+
+                buildMinAggregation: function(field, name) {
+                    this._setEjsAggregation(ejs.MinAggregation(name).field(field));
+                },
+
+                buildMaxAggregation: function(field, name) {
+                    this._setEjsAggregation(ejs.MaxAggregation(name).field(field));
+                }
+            });
+        })();
+    </script>
+</dom-module>
