@@ -12,7 +12,7 @@
   ],
   "main": "elastic-client-aggregation.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/DigElements/elastic-client-aggregation-builder/",
   "ignore": [
     "/.*",
     "/test/"
