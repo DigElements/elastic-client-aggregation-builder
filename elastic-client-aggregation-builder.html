@@ -3,7 +3,7 @@
 <link rel="import" href="./lodash.html">
 
 <!--
-An element providing a solution to no problem in particular.
+An element which builds an elasticjs aggregation based on the set attributes.
 
 Example:
 
@@ -29,19 +29,33 @@ Example:
                 is: 'elastic-client-aggregation-builder',
 
                 properties: {
-
+                    /**
+                     * The field for which the aggregation applies
+                    */
                     field: {
                         type: String
                     },
 
+                    /**
+                     * The name to be used for the aggregation in
+                     * the elasticsearch  query results
+                    */
                     name: {
                         type: String
                     },
 
+                    /**
+                     * The type of aggregation to build.
+                     * Supported types:
+                     * terms
+                    */
                     type: {
                         type: String
                     },
 
+                    /**
+                     * The resulting elasticjs aggregation
+                    */
                     ejsAggregation: {
                         type: Object,
                         readOnly: true,
