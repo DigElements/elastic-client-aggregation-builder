@@ -1,0 +1,110 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
+
+        <!-- Import the element to test -->
+        <link rel="import" href="../elastic-client-aggregation-builder.html">
+    </head>
+    <body>
+        <!-- Use the document as a place to set up your fixtures. -->
+        <test-fixture id="elastic-client-aggregation-builder-fixture">
+            <template>
+                <elastic-client-aggregation-builder
+                    name="termsAgg"
+                    field="testField"
+                    type="terms"
+                >
+                </elastic-client-aggregation-builder>
+            </template>
+        </test-fixture>
+
+
+        <test-fixture id="elastic-client-aggregation-builder-fixture2">
+            <template>
+                <elastic-client-aggregation-builder
+                    name="minAgg"
+                    field="testField"
+                    type="min"
+                    count="25"
+                >
+                </elastic-client-aggregation-builder>
+            </template>
+        </test-fixture>
+
+        <test-fixture id="elastic-client-aggregation-builder-fixture3">
+            <template>
+                <elastic-client-aggregation-builder
+                    name="maxAgg"
+                    field="testField"
+                    type="max"
+                >
+                </elastic-client-aggregation-builder>
+            </template>
+        </test-fixture>
+        <script>
+            suite('<elastic-client-aggregation-builder>', function() {
+
+                var ecab;
+                var ecab2;
+                var ecab3;
+
+                setup(function() {
+                    ecab = fixture('elastic-client-aggregation-builder-fixture');
+                    ecab2 = fixture('elastic-client-aggregation-builder-fixture2');
+                    ecab3 = fixture('elastic-client-aggregation-builder-fixture3');
+                });
+
+                test('name is set properly', function(done) {
+                    expect(ecab.name).to.exist;
+                    expect(ecab.name).to.equal('termsAgg');
+                    done();
+                });
+
+                test('field is set properly', function(done) {
+                    expect(ecab.field).to.exist;
+                    expect(ecab.field).to.equal("testField");
+                    done();
+                });
+
+                test('count defaults properly', function(done) {
+                    expect(ecab.count).to.exist;
+                    expect(ecab.count).to.equal(10);
+                    done();
+                });
+
+                test('count is set properly', function(done) {
+                    expect(ecab2.count).to.exist;
+                    expect(ecab2.count).to.equal(25);
+                    done();
+                });
+
+                test('terms aggregation clause is built properly', function(done) {
+                    expect(ecab.ejsAggregation).to.exist;
+                    expect(ecab.ejsAggregation.toJSON())
+                    .to
+                    .deep
+                    .equal(ejs.TermsAggregation('termsAgg').field('testField').size(10).toJSON());
+                    done();
+                });
+
+                test('min aggregation clause is built properly', function(done) {
+                    expect(ecab2.ejsAggregation).to.exist;
+                    expect(ecab2.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
+                    done();
+                });
+
+                test('max aggregation clause is built properly', function(done) {
+                    expect(ecab3.ejsAggregation).to.exist;
+                    expect(ecab3.ejsAggregation.toJSON()).to.deep.equal(ejs.MaxAggregation('maxAgg').field('testField').toJSON());
+                    done();
+                });
+            });
+        </script>
+    </body>
+</html>
