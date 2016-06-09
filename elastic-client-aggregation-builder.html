@@ -88,9 +88,7 @@ Example:
 
                 buildTermsAggregation: function(field, name) {
                     var agg = ejs.TermsAggregation(name).field(field);
-                    if(this.count) {
-                        agg = agg.size(this.count);
-                    }
+                    agg = agg.size(this.count);
 
                     this._setEjsAggregation(agg);
                 },
