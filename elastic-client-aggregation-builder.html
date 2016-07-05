@@ -66,14 +66,19 @@ Example:
                     */
                     count: {
                         type: Number,
-                        value: 10
+                        value: 10,
+                        observer: 'updateAggregationCount'
                     }
                 },
 
                 observers : [
                     'buildAggregation(field, name, type)'
                 ],
-
+                updateAggregationCount: function(){
+                    if(this.ejsAggregation) {
+                        this.buildAggregation(this.field, this.name, this.type);
+                    }
+                },
                 buildAggregation: function(field, name, type) {
                     if(type === 'terms') {
                         this.buildTermsAggregation(field, name);

@@ -93,6 +93,16 @@
                     done();
                 });
 
+                test('terms aggregation count updates on change', function(done) {
+                    ecab.count = 20;
+                    expect(ecab.ejsAggregation).to.exist;
+                    expect(ecab.ejsAggregation.toJSON())
+                    .to
+                    .deep
+                    .equal(ejs.TermsAggregation('termsAgg').field('testField').size(20).toJSON());
+                    done();
+                });
+
                 test('min aggregation clause is built properly', function(done) {
                     expect(ecab2.ejsAggregation).to.exist;
                     expect(ecab2.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
