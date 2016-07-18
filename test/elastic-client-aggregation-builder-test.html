@@ -11,98 +11,121 @@
         <!-- Import the element to test -->
         <link rel="import" href="../elastic-client-aggregation-builder.html">
     </head>
+
     <body>
         <!-- Use the document as a place to set up your fixtures. -->
         <test-fixture id="elastic-client-aggregation-builder-fixture">
             <template>
-                <elastic-client-aggregation-builder
-                    name="termsAgg"
-                    field="testField"
-                    type="terms"
-                >
+                <elastic-client-aggregation-builder>
                 </elastic-client-aggregation-builder>
             </template>
         </test-fixture>
 
-
-        <test-fixture id="elastic-client-aggregation-builder-fixture2">
-            <template>
-                <elastic-client-aggregation-builder
-                    name="minAgg"
-                    field="testField"
-                    type="min"
-                    count="25"
-                >
-                </elastic-client-aggregation-builder>
-            </template>
-        </test-fixture>
-
-        <test-fixture id="elastic-client-aggregation-builder-fixture3">
-            <template>
-                <elastic-client-aggregation-builder
-                    name="maxAgg"
-                    field="testField"
-                    type="max"
-                >
-                </elastic-client-aggregation-builder>
-            </template>
-        </test-fixture>
         <script>
-            suite('<elastic-client-aggregation-builder>', function() {
-
-                var ecab;
-                var ecab2;
-                var ecab3;
+            suite('<elastic-client-aggregation-builder> terms', function() {
+                var component;
 
                 setup(function() {
-                    ecab = fixture('elastic-client-aggregation-builder-fixture');
-                    ecab2 = fixture('elastic-client-aggregation-builder-fixture2');
-                    ecab3 = fixture('elastic-client-aggregation-builder-fixture3');
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.type = 'terms';
+                    component.name = 'termsAgg';
+                    component.field = 'testField';
                 });
 
-                test('name is set properly', function(done) {
-                    expect(ecab.name).to.exist;
-                    expect(ecab.name).to.equal('termsAgg');
-                    done();
+                test('name is set properly', function() {
+                    expect(component.name).to.exist;
+                    expect(component.name).to.equal('termsAgg');
                 });
 
-                test('field is set properly', function(done) {
-                    expect(ecab.field).to.exist;
-                    expect(ecab.field).to.equal("testField");
-                    done();
+                test('field is set properly', function() {
+                    expect(component.field).to.exist;
+                    expect(component.field).to.equal("testField");
                 });
 
-                test('count defaults properly', function(done) {
-                    expect(ecab.count).to.exist;
-                    expect(ecab.count).to.equal(10);
-                    done();
+                test('count defaults properly', function() {
+                    expect(component.count).to.exist;
+                    expect(component.count).to.equal(10);
                 });
 
-                test('count is set properly', function(done) {
-                    expect(ecab2.count).to.exist;
-                    expect(ecab2.count).to.equal(25);
-                    done();
+                test('terms aggregation clause is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(10).toJSON());
+                });
+            });
+
+            suite('<elastic-client-aggregation-builder> terms with count', function() {
+                var component;
+
+                setup(function() {
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.count = 25;
+                    component.type = 'terms';
+                    component.name = 'termsAgg';
+                    component.field = 'testField';
                 });
 
-                test('terms aggregation clause is built properly', function(done) {
-                    expect(ecab.ejsAggregation).to.exist;
-                    expect(ecab.ejsAggregation.toJSON())
-                    .to
-                    .deep
-                    .equal(ejs.TermsAggregation('termsAgg').field('testField').size(10).toJSON());
-                    done();
+                test('count is set properly', function() {
+                    expect(component.count).to.exist;
+                    expect(component.count).to.equal(25);
                 });
 
-                test('min aggregation clause is built properly', function(done) {
-                    expect(ecab2.ejsAggregation).to.exist;
-                    expect(ecab2.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
-                    done();
+                test('terms aggregation clause is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(25).toJSON());
+                });
+            });
+
+            suite('<elastic-client-aggregation-builder> min', function() {
+                var component;
+
+                setup(function() {
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.type = 'min';
+                    component.name = 'minAgg';
+                    component.field = 'testField';
                 });
 
-                test('max aggregation clause is built properly', function(done) {
-                    expect(ecab3.ejsAggregation).to.exist;
-                    expect(ecab3.ejsAggregation.toJSON()).to.deep.equal(ejs.MaxAggregation('maxAgg').field('testField').toJSON());
-                    done();
+                test('min aggregation clause is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
+                });
+            });
+
+            suite('<elastic-client-aggregation-builder> max', function() {
+                var component;
+
+                setup(function() {
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.type = 'max';
+                    component.name = 'maxAgg';
+                    component.field = 'testField';
+                });
+
+                test('max aggregation clause is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.MaxAggregation('maxAgg').field('testField').toJSON());
+                });
+            });
+
+            suite('<elastic-client-aggregation-builder> date histogram', function() {
+                var component;
+
+                setup(function() {
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.type = 'date_histogram';
+                    component.name = 'dateAgg';
+                    component.field = 'testField';
+                    component.interval = 'day';
+                });
+
+                test('interval is set properly', function() {
+                    expect(component.interval).to.exist;
+                    expect(component.interval).to.equal('day');
+                });
+
+                test('date histogram aggregation clause is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('day').toJSON());
                 });
             });
         </script>

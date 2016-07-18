@@ -46,10 +46,18 @@ Example:
                     /**
                      * The type of aggregation to build.
                      * Supported types:
-                     * terms
+                     * terms, min, max, date_histogram
                     */
                     type: {
                         type: String
+                    },
+
+                    /**
+                     * The interval for date histogram aggregations.
+                    */
+                    interval: {
+                        type: String,
+                        value: 'day'
                     },
 
                     /**
@@ -83,6 +91,9 @@ Example:
                     }
                     if(type === 'max') {
                         this.buildMaxAggregation(field, name);
+                    }
+                    if(type === 'date_histogram') {
+                        this._setEjsAggregation(ejs.DateHistogramAggregation(name).field(field).interval(this.interval));
                     }
                 },
 
