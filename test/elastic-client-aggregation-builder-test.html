@@ -128,6 +128,26 @@
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('day').toJSON());
                 });
             });
+
+            suite('<elastic-client-aggregation-builder> terms with nested aggregations', function() {
+                var component;
+
+                setup(function() {
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.nestedAggregations = [ejs.TermsAggregation('nestedAgg1').field('nestedField1'), ejs.TermsAggregation('nestedAgg2').field('nestedField2')];
+                    component.type = 'terms';
+                    component.name = 'testAgg';
+                    component.field = 'testField';
+                });
+
+                test('terms aggregation clause with nested aggregations is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    var nested1 = ejs.TermsAggregation('nestedAgg1').field('nestedField1');
+                    var nested2 = ejs.TermsAggregation('nestedAgg2').field('nestedField2');
+                    var result = ejs.TermsAggregation('testAgg').field('testField').size(10).aggregation(nested1).aggregation(nested2);
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
+                });
+            });
         </script>
     </body>
 </html>

@@ -75,41 +75,47 @@ Example:
                     count: {
                         type: Number,
                         value: 10
+                    },
+
+                    /**
+                     * The array of elasticjs aggregation objects to nest within this elasticjs aggregation object (if any).
+                     */
+                    nestedAggregations: {
+                        type: Array,
+                        value: function() {
+                            return [];
+                        }
                     }
                 },
 
                 observers : [
-                    'buildAggregation(field, name, type)'
+                    'buildAggregation(field, name, type, nestedAggregations)'
                 ],
 
-                buildAggregation: function(field, name, type) {
+                buildAggregation: function(field, name, type, nestedAggregations) {
+                    var ejsAggregation;
                     if(type === 'terms') {
-                        this.buildTermsAggregation(field, name);
+                        ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);
                     }
                     if(type === 'min') {
-                        this.buildMinAggregation(field, name);
+                        ejsAggregation = ejs.MinAggregation(name).field(field);
                     }
                     if(type === 'max') {
-                        this.buildMaxAggregation(field, name);
+                        ejsAggregation = ejs.MaxAggregation(name).field(field);
                     }
                     if(type === 'date_histogram') {
-                        this._setEjsAggregation(ejs.DateHistogramAggregation(name).field(field).interval(this.interval));
+                        ejsAggregation = ejs.DateHistogramAggregation(name).field(field).interval(this.interval);
                     }
-                },
-
-                buildTermsAggregation: function(field, name) {
-                    var agg = ejs.TermsAggregation(name).field(field);
-                    agg = agg.size(this.count);
-
-                    this._setEjsAggregation(agg);
-                },
-
-                buildMinAggregation: function(field, name) {
-                    this._setEjsAggregation(ejs.MinAggregation(name).field(field));
-                },
-
-                buildMaxAggregation: function(field, name) {
-                    this._setEjsAggregation(ejs.MaxAggregation(name).field(field));
+                    if(ejsAggregation) {
+                        if(nestedAggregations) {
+                            (nestedAggregations.constructor === Array ? nestedAggregations : [nestedAggregations]).forEach(function(nestedAggregation) {
+                                if(nestedAggregation) {
+                                    ejsAggregation.aggregation(nestedAggregation);
+                                }
+                            });
+                        }
+                        this._setEjsAggregation(ejsAggregation);
+                    }
                 }
             });
         })();
