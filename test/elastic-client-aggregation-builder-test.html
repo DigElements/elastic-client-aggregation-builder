@@ -129,6 +129,24 @@
                 });
             });
 
+            suite('<elastic-client-aggregation-builder> terms with order', function() {
+                var component;
+
+                setup(function() {
+                    component = fixture('elastic-client-aggregation-builder-fixture');
+                    component.order = '_term';
+                    component.direction = 'desc';
+                    component.type = 'terms';
+                    component.name = 'testAgg';
+                    component.field = 'testField';
+                });
+
+                test('terms aggregation clause with order is built properly', function() {
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'desc').toJSON());
+                });
+            });
+
             suite('<elastic-client-aggregation-builder> terms with nested aggregations', function() {
                 var component;
 
