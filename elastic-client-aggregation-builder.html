@@ -46,10 +46,34 @@ Example:
                     /**
                      * The type of aggregation to build.
                      * Supported types:
-                     * terms
-                    */
+                     * terms, min, max, date_histogram
+                     */
                     type: {
                         type: String
+                    },
+
+                    /**
+                     * The interval for date histogram aggregations.
+                     */
+                    interval: {
+                        type: String,
+                        value: 'day'
+                    },
+
+                    /**
+                     * The order for aggregations.  Used with the direction property.
+                     */
+                    order: {
+                        type: String,
+                        value: ''
+                    },
+
+                    /**
+                     * The direction for aggregations.  Used with the order property.
+                     */
+                    direction: {
+                        type: String,
+                        value: 'asc'
                     },
 
                     /**
@@ -68,42 +92,54 @@ Example:
                         type: Number,
                         value: 10,
                         observer: 'updateAggregationCount'
+                    },
+
+                    /**
+                     * The array of elasticjs aggregation objects to nest within this elasticjs aggregation object (if any).
+                     */
+                    nestedAggregations: {
+                        type: Array,
+                        value: function() {
+                            return [];
+                        }
                     }
                 },
 
                 observers : [
-                    'buildAggregation(field, name, type)'
+                    'buildAggregation(field, name, type, nestedAggregations)'
                 ],
                 updateAggregationCount: function(){
                     if(this.ejsAggregation) {
                         this.buildAggregation(this.field, this.name, this.type);
                     }
                 },
-                buildAggregation: function(field, name, type) {
+                buildAggregation: function(field, name, type, nestedAggregations) {
+                    var ejsAggregation;
                     if(type === 'terms') {
-                        this.buildTermsAggregation(field, name);
+                        ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);
                     }
                     if(type === 'min') {
-                        this.buildMinAggregation(field, name);
+                        ejsAggregation = ejs.MinAggregation(name).field(field);
                     }
                     if(type === 'max') {
-                        this.buildMaxAggregation(field, name);
+                        ejsAggregation = ejs.MaxAggregation(name).field(field);
                     }
-                },
-
-                buildTermsAggregation: function(field, name) {
-                    var agg = ejs.TermsAggregation(name).field(field);
-                    agg = agg.size(this.count);
-
-                    this._setEjsAggregation(agg);
-                },
-
-                buildMinAggregation: function(field, name) {
-                    this._setEjsAggregation(ejs.MinAggregation(name).field(field));
-                },
-
-                buildMaxAggregation: function(field, name) {
-                    this._setEjsAggregation(ejs.MaxAggregation(name).field(field));
+                    if(type === 'date_histogram') {
+                        ejsAggregation = ejs.DateHistogramAggregation(name).field(field).interval(this.interval);
+                    }
+                    if(ejsAggregation) {
+                        if(this.order && this.direction) {
+                          ejsAggregation.order(this.order, this.direction);
+                        }
+                        if(nestedAggregations) {
+                            (nestedAggregations.constructor === Array ? nestedAggregations : [nestedAggregations]).forEach(function(nestedAggregation) {
+                                if(nestedAggregation) {
+                                    ejsAggregation.aggregation(nestedAggregation);
+                                }
+                            });
+                        }
+                        this._setEjsAggregation(ejsAggregation);
+                    }
                 }
             });
         })();
