@@ -90,8 +90,7 @@ Example:
                     */
                     count: {
                         type: Number,
-                        value: 10,
-                        observer: 'updateAggregationCount'
+                        value: 10
                     },
 
                     /**
@@ -106,9 +105,10 @@ Example:
                 },
 
                 observers : [
-                    'buildAggregation(field, name, type, nestedAggregations)'
+                    'buildAggregation(field, name, type, nestedAggregations)',
+                    'updateAggregation(count, order, direction)'
                 ],
-                updateAggregationCount: function(){
+                updateAggregation: function() {
                     if(this.ejsAggregation) {
                         this.buildAggregation(this.field, this.name, this.type);
                     }

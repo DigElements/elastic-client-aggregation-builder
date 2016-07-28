@@ -140,7 +140,7 @@
                 });
             });
 
-            suite('<elastic-client-aggregation-builder> terms with order', function() {
+            suite('<elastic-client-aggregation-builder> terms with order/direction', function() {
                 var component;
 
                 setup(function() {
@@ -155,6 +155,18 @@
                 test('terms aggregation clause with order is built properly', function() {
                     expect(component.ejsAggregation).to.exist;
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'desc').toJSON());
+                });
+
+                test('terms aggregation order updates on change', function() {
+                    component.order = '';
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).toJSON());
+                });
+
+                test('terms aggregation direction updates on change', function() {
+                    component.direction = 'asc';
+                    expect(component.ejsAggregation).to.exist;
+                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'asc').toJSON());
                 });
             });
 
