@@ -18,29 +18,99 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </head>
     <body unresolved>
         <template is="dom-bind" id="demo">
+            <p>===== DEMO 1 =====</p>
             <p>Field: 'myfield'</p>
-            <p>Name: 'myAgg'</p>
+            <p>Name: 'myAgg1'</p>
             <p>type: 'terms'</p>
             <p>count: 15</p>
 
             <elastic-client-aggregation-builder
                 field="myfield"
-                name="myAgg"
+                name="myAgg1"
                 type="terms"
                 count="15"
-                ejs-aggregation="{{agg}}">
+                ejs-aggregation="{{agg1}}">
             </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{toJSON(agg)}}</p>
+            <p><span>ElasticJS aggregation: </span>{{stringify(agg1)}}</p>
+
+            <p>===== DEMO 2 =====</p>
+            <p>Field: 'myfield'</p>
+            <p>Name: 'myAgg2'</p>
+            <p>type: 'min'</p>
+
+            <elastic-client-aggregation-builder
+                field="myfield"
+                name="myAgg2"
+                type="min"
+                ejs-aggregation="{{agg2}}">
+            </elastic-client-aggregation-builder>
+
+            <p><span>ElasticJS aggregation: </span>{{stringify(agg2)}}</p>
+
+            <p>===== DEMO 3 =====</p>
+            <p>Field: 'myfield'</p>
+            <p>Name: 'myAgg3'</p>
+            <p>type: 'date_histogram'</p>
+
+            <elastic-client-aggregation-builder
+                field="myfield"
+                name="myAgg3"
+                type="date_histogram"
+                ejs-aggregation="{{agg3}}">
+            </elastic-client-aggregation-builder>
+
+            <p><span>ElasticJS aggregation: </span>{{stringify(agg3)}}</p>
+
+            <p>===== DEMO 4 =====</p>
+            <p>Field: 'myfield'</p>
+            <p>Name: 'myAgg4'</p>
+            <p>type: 'terms'</p>
+            <p>count: 5</p>
+            <p>order: 'otherField'</p>
+            <p>direction: 'desc'</p>
+            <p>Nested aggregations: [{{stringify(agg3)}}]</p>
+
+            <elastic-client-aggregation-builder
+                field="myfield"
+                name="myAgg4"
+                type="terms"
+                count="5"
+                ejs-aggregation="{{agg4}}"
+                nested-aggregations="{{objectToArray(agg3)}}"
+                order="otherField"
+                direction="desc">
+            </elastic-client-aggregation-builder>
+
+            <p><span>ElasticJS aggregation: </span>{{stringify(agg4)}}</p>
+
+            <p>===== DEMO 5 =====</p>
+            <p>Field: 'myfield'</p>
+            <p>Name: 'myAgg5'</p>
+            <p>type: 'max'</p>
+
+            <elastic-client-aggregation-builder
+                field="myfield"
+                name="myAgg5"
+                type="max"
+                ejs-aggregation="{{agg5}}">
+            </elastic-client-aggregation-builder>
+
+            <p><span>ElasticJS aggregation: </span>{{stringify(agg5)}}</p>
+
         </template>
 
         <script>
             (function(document) {
                 var demo = document.querySelector('#demo');
 
-                demo.toJSON = function(ejs) {
+                demo.stringify = function(ejs) {
                     return JSON.stringify(ejs);
-                }
+                };
+
+                demo.objectToArray = function(json) {
+                    return [json];
+                };
             })(document);
         </script>
     </body>

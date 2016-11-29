@@ -7,12 +7,11 @@ An element which builds an elasticjs aggregation based on the set attributes.
 Example:
 
         <elastic-client-aggregation-builder
-            field: "fieldName"
-            name: "aggName"
-            type: "terms"
-            count: "15"
-            ejs-aggregation: "{{ejsAgg}}"
-        >
+            field="fieldName"
+            name="aggName"
+            type="terms"
+            count="15"
+            ejs-aggregation="{{ejsAgg}}">
         </elastic-client-aggregation>
 
 @demo demo/index.html
@@ -105,15 +104,15 @@ Example:
                 },
 
                 observers : [
-                    'buildAggregation(field, name, type, nestedAggregations)',
-                    'updateAggregation(count, order, direction)'
+                    '_buildAggregation(field, name, type, nestedAggregations)',
+                    '_updateAggregation(count, order, direction)'
                 ],
-                updateAggregation: function() {
+                _updateAggregation: function() {
                     if(this.ejsAggregation) {
-                        this.buildAggregation(this.field, this.name, this.type);
+                        this._buildAggregation(this.field, this.name, this.type, this.nestedAggregations);
                     }
                 },
-                buildAggregation: function(field, name, type, nestedAggregations) {
+                _buildAggregation: function(field, name, type, nestedAggregations) {
                     var ejsAggregation;
                     if(type === 'terms') {
                         ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);

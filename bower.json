@@ -1,10 +1,10 @@
 {
   "name": "elastic-client-aggregation-builder",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "authors": [
     "Next Century Corporation"
   ],
-  "description": "",
+  "description": "An element which builds an elasticjs aggregation based on the set attributes",
   "keywords": [
     "web-component",
     "polymer",
