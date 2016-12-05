@@ -39,7 +39,12 @@
 
                 test('field is set properly', function() {
                     expect(component.field).to.exist;
-                    expect(component.field).to.equal("testField");
+                    expect(component.field).to.equal('testField');
+                });
+
+                test('type is set properly', function() {
+                    expect(component.type).to.exist;
+                    expect(component.type).to.equal('terms');
                 });
 
                 test('count defaults properly', function() {
