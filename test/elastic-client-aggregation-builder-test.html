@@ -56,6 +56,10 @@
                     expect(component.ejsAggregation).to.exist;
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(10).toJSON());
                 });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                });
             });
 
             suite('<elastic-client-aggregation-builder> terms with count', function() {
@@ -89,6 +93,9 @@
                     done();
                 });
 
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                });
             });
 
             suite('<elastic-client-aggregation-builder> min', function() {
@@ -105,6 +112,10 @@
                     expect(component.ejsAggregation).to.exist;
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
                 });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                });
             });
 
             suite('<elastic-client-aggregation-builder> max', function() {
@@ -120,6 +131,10 @@
                 test('max aggregation clause is built properly', function() {
                     expect(component.ejsAggregation).to.exist;
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.MaxAggregation('maxAgg').field('testField').toJSON());
+                });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
                 });
             });
 
@@ -142,6 +157,10 @@
                 test('date histogram aggregation clause is built properly', function() {
                     expect(component.ejsAggregation).to.exist;
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('day').toJSON());
+                });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
                 });
             });
 
@@ -173,6 +192,10 @@
                     expect(component.ejsAggregation).to.exist;
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'asc').toJSON());
                 });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                });
             });
 
             suite('<elastic-client-aggregation-builder> terms with nested aggregations', function() {
@@ -192,6 +215,10 @@
                     var nested2 = ejs.TermsAggregation('nestedAgg2').field('nestedField2');
                     var result = ejs.TermsAggregation('testAgg').field('testField').size(10).aggregation(nested1).aggregation(nested2);
                     expect(component.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
+                });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(component.root).children.length).to.equal(0);
                 });
             });
         </script>
