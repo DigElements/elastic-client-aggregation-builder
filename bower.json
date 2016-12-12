@@ -8,7 +8,7 @@
   "keywords": [
     "web-component",
     "polymer",
-    "seed"
+    "elastic.js"
   ],
   "main": "elastic-client-aggregation.html",
   "license": "http://polymer.github.io/LICENSE.txt",
