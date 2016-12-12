@@ -1,10 +1,10 @@
 {
   "name": "elastic-client-aggregation-builder",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "authors": [
     "Next Century Corporation"
   ],
-  "description": "An element which builds an elasticjs aggregation based on the set attributes",
+  "description": "A Polymer Element which builds an elasticjs aggregation based on the set attributes.",
   "keywords": [
     "web-component",
     "polymer",
@@ -18,11 +18,11 @@
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0",
-    "dig-common": "DigElements/dig-common#^0.0.4"
+    "polymer": "Polymer/polymer#^1.7.0",
+    "elastic.js": "DigElements/elastic.js#6639a1030eb071fb762bcdd742fdbf037fb57b24"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^4.0.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",
+    "web-component-tester": "^5.0.0"
   }
 }

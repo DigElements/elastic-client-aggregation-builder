@@ -1,25 +1,36 @@
 # elastic-client-aggregation-builder
 
-An element which builds an elasticjs aggregation based on the set attributes.
+A Polymer Element which builds an elasticjs aggregation based on the set attributes.
 
-Example:
+### Example
 ```html
-    <elastic-client-aggregation-builder
-        field="fieldName"
-        name="aggName"
-        type="terms"
-        count="15"
-        ejs-aggregation="{{ejsAgg}}">
-    </elastic-client-aggregation>
+<elastic-client-aggregation-builder
+  field="fieldName"
+  name="aggName"
+  type="terms"
+  count="15"
+  ejs-aggregation="{{ejsAgg}}">
+</elastic-client-aggregation>
 ```
 
-## Dependencies
+### Dependencies
 
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
+Dependencies are installed using [Bower](http://bower.io/):
 
     npm install -g bower
-
-Then, go ahead and download the element's dependencies:
-
     bower install
+
+### Testing
+
+Tests are run using [web-component-tester](https://github.com/Polymer/web-component-tester):
+
+    npm install -g web-component-tester
+    wct
+
+### Demonstration & Documentation
+
+Demonstration and documentation are viewed using [polyserve](https://github.com/PolymerLabs/polyserve):
+
+    npm install -g polyserve
+    polyserve
+

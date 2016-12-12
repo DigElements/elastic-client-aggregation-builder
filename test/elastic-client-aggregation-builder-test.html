@@ -1,19 +1,13 @@
-<!doctype html>
-
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
         <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
         <script src="../../web-component-tester/browser.js"></script>
-
-        <!-- Import the element to test -->
         <link rel="import" href="../elastic-client-aggregation-builder.html">
     </head>
 
     <body>
-        <!-- Use the document as a place to set up your fixtures. -->
         <test-fixture id="elastic-client-aggregation-builder-fixture">
             <template>
                 <elastic-client-aggregation-builder>
@@ -23,70 +17,70 @@
 
         <script>
             suite('<elastic-client-aggregation-builder> terms', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.type = 'terms';
-                    component.name = 'termsAgg';
-                    component.field = 'testField';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.type = 'terms';
+                    element.name = 'termsAgg';
+                    element.field = 'testField';
                 });
 
                 test('name is set properly', function() {
-                    expect(component.name).to.exist;
-                    expect(component.name).to.equal('termsAgg');
+                    expect(element.name).to.exist;
+                    expect(element.name).to.equal('termsAgg');
                 });
 
                 test('field is set properly', function() {
-                    expect(component.field).to.exist;
-                    expect(component.field).to.equal('testField');
+                    expect(element.field).to.exist;
+                    expect(element.field).to.equal('testField');
                 });
 
                 test('type is set properly', function() {
-                    expect(component.type).to.exist;
-                    expect(component.type).to.equal('terms');
+                    expect(element.type).to.exist;
+                    expect(element.type).to.equal('terms');
                 });
 
                 test('count defaults properly', function() {
-                    expect(component.count).to.exist;
-                    expect(component.count).to.equal(10);
+                    expect(element.count).to.exist;
+                    expect(element.count).to.equal(10);
                 });
 
                 test('terms aggregation clause is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(10).toJSON());
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(10).toJSON());
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
 
             suite('<elastic-client-aggregation-builder> terms with count', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.count = 25;
-                    component.type = 'terms';
-                    component.name = 'termsAgg';
-                    component.field = 'testField';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.count = 25;
+                    element.type = 'terms';
+                    element.name = 'termsAgg';
+                    element.field = 'testField';
                 });
 
                 test('count is set properly', function() {
-                    expect(component.count).to.exist;
-                    expect(component.count).to.equal(25);
+                    expect(element.count).to.exist;
+                    expect(element.count).to.equal(25);
                 });
 
                 test('terms aggregation clause is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(25).toJSON());
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('termsAgg').field('testField').size(25).toJSON());
                 });
 
                 test('terms aggregation count updates on change', function(done) {
-                    component.count = 20;
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON())
+                    element.count = 20;
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON())
                     .to
                     .deep
                     .equal(ejs.TermsAggregation('termsAgg').field('testField').size(20).toJSON());
@@ -94,131 +88,131 @@
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
 
             suite('<elastic-client-aggregation-builder> min', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.type = 'min';
-                    component.name = 'minAgg';
-                    component.field = 'testField';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.type = 'min';
+                    element.name = 'minAgg';
+                    element.field = 'testField';
                 });
 
                 test('min aggregation clause is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.MinAggregation('minAgg').field('testField').toJSON());
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
 
             suite('<elastic-client-aggregation-builder> max', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.type = 'max';
-                    component.name = 'maxAgg';
-                    component.field = 'testField';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.type = 'max';
+                    element.name = 'maxAgg';
+                    element.field = 'testField';
                 });
 
                 test('max aggregation clause is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.MaxAggregation('maxAgg').field('testField').toJSON());
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.MaxAggregation('maxAgg').field('testField').toJSON());
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
 
             suite('<elastic-client-aggregation-builder> date histogram', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.type = 'date_histogram';
-                    component.name = 'dateAgg';
-                    component.field = 'testField';
-                    component.interval = 'day';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.type = 'date_histogram';
+                    element.name = 'dateAgg';
+                    element.field = 'testField';
+                    element.interval = 'day';
                 });
 
                 test('interval is set properly', function() {
-                    expect(component.interval).to.exist;
-                    expect(component.interval).to.equal('day');
+                    expect(element.interval).to.exist;
+                    expect(element.interval).to.equal('day');
                 });
 
                 test('date histogram aggregation clause is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('day').toJSON());
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('day').toJSON());
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
 
             suite('<elastic-client-aggregation-builder> terms with order/direction', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.order = '_term';
-                    component.direction = 'desc';
-                    component.type = 'terms';
-                    component.name = 'testAgg';
-                    component.field = 'testField';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.order = '_term';
+                    element.direction = 'desc';
+                    element.type = 'terms';
+                    element.name = 'testAgg';
+                    element.field = 'testField';
                 });
 
                 test('terms aggregation clause with order is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'desc').toJSON());
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'desc').toJSON());
                 });
 
                 test('terms aggregation order updates on change', function() {
-                    component.order = '';
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).toJSON());
+                    element.order = '';
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).toJSON());
                 });
 
                 test('terms aggregation direction updates on change', function() {
-                    component.direction = 'asc';
-                    expect(component.ejsAggregation).to.exist;
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'asc').toJSON());
+                    element.direction = 'asc';
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.TermsAggregation('testAgg').field('testField').size(10).order('_term', 'asc').toJSON());
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
 
             suite('<elastic-client-aggregation-builder> terms with nested aggregations', function() {
-                var component;
+                var element;
 
                 setup(function() {
-                    component = fixture('elastic-client-aggregation-builder-fixture');
-                    component.nestedAggregations = [ejs.TermsAggregation('nestedAgg1').field('nestedField1'), ejs.TermsAggregation('nestedAgg2').field('nestedField2')];
-                    component.type = 'terms';
-                    component.name = 'testAgg';
-                    component.field = 'testField';
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.nestedAggregations = [ejs.TermsAggregation('nestedAgg1').field('nestedField1'), ejs.TermsAggregation('nestedAgg2').field('nestedField2')];
+                    element.type = 'terms';
+                    element.name = 'testAgg';
+                    element.field = 'testField';
                 });
 
                 test('terms aggregation clause with nested aggregations is built properly', function() {
-                    expect(component.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation).to.exist;
                     var nested1 = ejs.TermsAggregation('nestedAgg1').field('nestedField1');
                     var nested2 = ejs.TermsAggregation('nestedAgg2').field('nestedField2');
                     var result = ejs.TermsAggregation('testAgg').field('testField').size(10).aggregation(nested1).aggregation(nested2);
-                    expect(component.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
                 });
 
                 test('does not have html content', function() {
-                    expect(Polymer.dom(component.root).children.length).to.equal(0);
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
         </script>

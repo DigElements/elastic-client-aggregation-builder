@@ -1,18 +1,19 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../dig-common/dig-common.html">
+<script src="../elastic.js/dist/elastic.js"></script>
 
 <!--
-An element which builds an elasticjs aggregation based on the set attributes.
+A Polymer Element which builds an elasticjs aggregation based on the set attributes.
 
-Example:
-
-        <elastic-client-aggregation-builder
-            field="fieldName"
-            name="aggName"
-            type="terms"
-            count="15"
-            ejs-aggregation="{{ejsAgg}}">
-        </elastic-client-aggregation>
+### Example
+```html
+<elastic-client-aggregation-builder
+  field="fieldName"
+  name="aggName"
+  type="terms"
+  count="15"
+  ejs-aggregation="{{ejsAgg}}">
+</elastic-client-aggregation>
+```
 
 @demo demo/index.html
 -->
@@ -28,31 +29,47 @@ Example:
 
                 properties: {
                     /**
-                     * The field for which the aggregation applies
-                    */
+                     * (Required)
+                     *
+                     * The field for which the aggregation applies.
+                     *
+                     * @type {String}
+                     */
                     field: {
                         type: String
                     },
 
                     /**
-                     * The name to be used for the aggregation in
-                     * the elasticsearch  query results
-                    */
+                     * (Required)
+                     *
+                     * The name to be used for the aggregation in the elasticsearch query results.
+                     *
+                     * @type {String}
+                     */
                     name: {
                         type: String
                     },
 
                     /**
+                     * (Required)
+                     *
                      * The type of aggregation to build.
                      * Supported types:
                      * terms, min, max, date_histogram
+                     *
+                     * @type {String}
                      */
                     type: {
                         type: String
                     },
 
                     /**
+                     * (Optional)
+                     *
                      * The interval for date histogram aggregations.
+                     *
+                     * @type {String}
+                     * @default 'day'
                      */
                     interval: {
                         type: String,
@@ -60,7 +77,12 @@ Example:
                     },
 
                     /**
+                     * (Optional)
+                     *
                      * The order for aggregations.  Used with the direction property.
+                     *
+                     * @type {String}
+                     * @default ''
                      */
                     order: {
                         type: String,
@@ -68,7 +90,12 @@ Example:
                     },
 
                     /**
+                     * (Optional)
+                     *
                      * The direction for aggregations.  Used with the order property.
+                     *
+                     * @type {String}
+                     * @default 'asc'
                      */
                     direction: {
                         type: String,
@@ -76,8 +103,12 @@ Example:
                     },
 
                     /**
-                     * The resulting elasticjs aggregation
-                    */
+                     * (Output)
+                     *
+                     * The resulting elasticjs aggregation object.
+                     *
+                     * @type {Object}
+                     */
                     ejsAggregation: {
                         type: Object,
                         readOnly: true,
@@ -85,15 +116,25 @@ Example:
                     },
 
                     /**
-                     * the size count for aggregations which support size
-                    */
+                     * (Optional)
+                     *
+                     * The size count for aggregations which support size.
+                     *
+                     * @type {Number}
+                     * @default 10
+                     */
                     count: {
                         type: Number,
                         value: 10
                     },
 
                     /**
+                     * (Optional)
+                     *
                      * The array of elasticjs aggregation objects to nest within this elasticjs aggregation object (if any).
+                     *
+                     * @type {Array}
+                     * @default []
                      */
                     nestedAggregations: {
                         type: Array,
@@ -107,11 +148,27 @@ Example:
                     '_buildAggregation(field, name, type, nestedAggregations)',
                     '_updateAggregation(count, order, direction)'
                 ],
+
+                /**
+                 * Updates the elasticjs aggregation object if the count, order, or direction changes.
+                 *
+                 * @private
+                 */
                 _updateAggregation: function() {
                     if(this.ejsAggregation) {
                         this._buildAggregation(this.field, this.name, this.type, this.nestedAggregations);
                     }
                 },
+
+                /**
+                 * Builds and sets the elasticjs aggregation object using the field, name, type, and nested aggregations.
+                 *
+                 * @param {String} field
+                 * @param {String} name
+                 * @param {String} type
+                 * @param {Array} nestedAggregations
+                 * @private
+                 */
                 _buildAggregation: function(field, name, type, nestedAggregations) {
                     var ejsAggregation;
                     if(type === 'terms') {
