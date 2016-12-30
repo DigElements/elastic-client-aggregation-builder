@@ -231,6 +231,32 @@ limitations under the License.
                     expect(Polymer.dom(element.root).children.length).to.equal(0);
                 });
             });
+
+            suite('<elastic-client-aggregation-builder> terms with filter aggregations', function() {
+                var element;
+
+                setup(function() {
+                    element = fixture('elastic-client-aggregation-builder-fixture');
+                    element.type = 'filter';
+                    element.name = 'testAgg';
+                    element.field = null;
+                });
+
+                test('filter aggregation is not built until filter object is not empty', function() {
+                    var result = ejs.FilterAggregation('testAgg').filter(ejs.ExistsFilter('someField'));
+
+                    expect(element.ejsAggregation).to.not.exist;
+
+                    element.filter = ejs.ExistsFilter('someField');
+                    expect(element.ejsAggregation).to.exist;
+                    expect(element.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
+                });
+
+                test('does not have html content', function() {
+                    expect(Polymer.dom(element.root).children.length).to.equal(0);
+                });
+            });
+
         </script>
     </body>
 </html>

@@ -47,7 +47,7 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
                     /**
                      * (Required)
                      *
-                     * The field for which the aggregation applies.
+                     * The field for which the aggregation applies. User can set this to null or an empty string for filter aggregations since this value is ignored in that case.
                      *
                      * @type {String}
                      */
@@ -145,6 +145,20 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
                     },
 
                     /**
+                     *
+                     * The ejs filter object (used for ejs.FilterAggregations).
+                     *
+                     * @type {Object}
+                     * @default {}
+                     */
+                    filter: {
+                        type: Object,
+                        value: function() {
+                            return {};
+                        }
+                    },
+
+                    /**
                      * (Optional)
                      *
                      * The array of elasticjs aggregation objects to nest within this elasticjs aggregation object (if any).
@@ -161,7 +175,7 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
                 },
 
                 observers : [
-                    '_buildAggregation(field, name, type, nestedAggregations)',
+                    '_buildAggregation(field, name, type, nestedAggregations, filter)',
                     '_updateAggregation(count, order, direction)'
                 ],
 
@@ -172,7 +186,7 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
                  */
                 _updateAggregation: function() {
                     if(this.ejsAggregation) {
-                        this._buildAggregation(this.field, this.name, this.type, this.nestedAggregations);
+                        this._buildAggregation(this.field, this.name, this.type, this.nestedAggregations, this.filter);
                     }
                 },
 
@@ -183,10 +197,16 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
                  * @param {String} name
                  * @param {String} type
                  * @param {Array} nestedAggregations
+                 * @param {Object} filter
                  * @private
                  */
-                _buildAggregation: function(field, name, type, nestedAggregations) {
+                _buildAggregation: function(field, name, type, nestedAggregations, filter) {
                     var ejsAggregation;
+
+                    // if building filter aggregation, make sure filter object is not empty
+                    if(type === 'filter' && !(Object.keys(filter).length === 0 && filter.constructor === Object)) {
+                        ejsAggregation = ejs.FilterAggregation(name).filter(filter);
+                    }
                     if(type === 'terms') {
                         ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);
                     }

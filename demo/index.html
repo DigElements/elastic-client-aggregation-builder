@@ -104,6 +104,22 @@ limitations under the License.
 
             <p><span>ElasticJS aggregation: </span>{{stringify(agg5)}}</p>
 
+            <p>===== DEMO 6 =====</p>
+            <p>Field: ''</p>
+            <p>Name: 'myAgg6'</p>
+            <p>type: 'filter'</p>
+            <p>filter: ejs.ExistsFilter('someField')</p>
+
+            <elastic-client-aggregation-builder
+                field=""
+                name="myAgg6"
+                type="filter"
+                filter="{{createExistsFilter()}}"
+                ejs-aggregation="{{agg6}}">
+            </elastic-client-aggregation-builder>
+
+            <p><span>ElasticJS aggregation: </span>{{stringify(agg6)}}</p>
+
         </template>
 
         <script>
@@ -116,6 +132,10 @@ limitations under the License.
 
                 demo.objectToArray = function(json) {
                     return [json];
+                };
+
+                demo.createExistsFilter = function() {
+                    return ejs.ExistsFilter('someField');
                 };
             })(document);
         </script>
