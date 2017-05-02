@@ -15,129 +15,129 @@ limitations under the License.
 -->
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        <title>elastic-client-aggregation-builder Demo</title>
-        <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-        <link rel="import" href="../elastic-client-aggregation-builder.html">
-    </head>
-    <body unresolved>
-        <template is="dom-bind" id="demo">
-            <p>===== DEMO 1 =====</p>
-            <p>Field: 'myfield'</p>
-            <p>Name: 'myAgg1'</p>
-            <p>type: 'terms'</p>
-            <p>count: 15</p>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>elastic-client-aggregation-builder Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../elastic-client-aggregation-builder.html">
+  </head>
+  <body unresolved>
+    <template is="dom-bind" id="demo">
+      <p>===== DEMO 1 =====</p>
+      <p>Field: 'myfield'</p>
+      <p>Name: 'myAgg1'</p>
+      <p>type: 'terms'</p>
+      <p>count: 15</p>
 
-            <elastic-client-aggregation-builder
-                field="myfield"
-                name="myAgg1"
-                type="terms"
-                count="15"
-                ejs-aggregation="{{agg1}}">
-            </elastic-client-aggregation-builder>
+      <elastic-client-aggregation-builder
+        field="myfield"
+        name="myAgg1"
+        type="terms"
+        count="15"
+        ejs-aggregation="{{agg1}}">
+      </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{stringify(agg1)}}</p>
+      <p><span>ElasticJS aggregation: </span>{{stringify(agg1)}}</p>
 
-            <p>===== DEMO 2 =====</p>
-            <p>Field: 'myfield'</p>
-            <p>Name: 'myAgg2'</p>
-            <p>type: 'min'</p>
+      <p>===== DEMO 2 =====</p>
+      <p>Field: 'myfield'</p>
+      <p>Name: 'myAgg2'</p>
+      <p>type: 'min'</p>
 
-            <elastic-client-aggregation-builder
-                field="myfield"
-                name="myAgg2"
-                type="min"
-                ejs-aggregation="{{agg2}}">
-            </elastic-client-aggregation-builder>
+      <elastic-client-aggregation-builder
+        field="myfield"
+        name="myAgg2"
+        type="min"
+        ejs-aggregation="{{agg2}}">
+      </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{stringify(agg2)}}</p>
+      <p><span>ElasticJS aggregation: </span>{{stringify(agg2)}}</p>
 
-            <p>===== DEMO 3 =====</p>
-            <p>Field: 'myfield'</p>
-            <p>Name: 'myAgg3'</p>
-            <p>type: 'date_histogram'</p>
+      <p>===== DEMO 3 =====</p>
+      <p>Field: 'myfield'</p>
+      <p>Name: 'myAgg3'</p>
+      <p>type: 'date_histogram'</p>
 
-            <elastic-client-aggregation-builder
-                field="myfield"
-                name="myAgg3"
-                type="date_histogram"
-                ejs-aggregation="{{agg3}}">
-            </elastic-client-aggregation-builder>
+      <elastic-client-aggregation-builder
+        field="myfield"
+        name="myAgg3"
+        type="date_histogram"
+        ejs-aggregation="{{agg3}}">
+      </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{stringify(agg3)}}</p>
+      <p><span>ElasticJS aggregation: </span>{{stringify(agg3)}}</p>
 
-            <p>===== DEMO 4 =====</p>
-            <p>Field: 'myfield'</p>
-            <p>Name: 'myAgg4'</p>
-            <p>type: 'terms'</p>
-            <p>count: 5</p>
-            <p>order: 'otherField'</p>
-            <p>direction: 'desc'</p>
-            <p>Nested aggregations: [{{stringify(agg3)}}]</p>
+      <p>===== DEMO 4 =====</p>
+      <p>Field: 'myfield'</p>
+      <p>Name: 'myAgg4'</p>
+      <p>type: 'terms'</p>
+      <p>count: 5</p>
+      <p>order: 'otherField'</p>
+      <p>direction: 'desc'</p>
+      <p>Nested aggregations: [{{stringify(agg3)}}]</p>
 
-            <elastic-client-aggregation-builder
-                field="myfield"
-                name="myAgg4"
-                type="terms"
-                count="5"
-                ejs-aggregation="{{agg4}}"
-                nested-aggregations="{{objectToArray(agg3)}}"
-                order="otherField"
-                direction="desc">
-            </elastic-client-aggregation-builder>
+      <elastic-client-aggregation-builder
+        field="myfield"
+        name="myAgg4"
+        type="terms"
+        count="5"
+        ejs-aggregation="{{agg4}}"
+        nested-aggregations="{{objectToArray(agg3)}}"
+        order="otherField"
+        direction="desc">
+      </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{stringify(agg4)}}</p>
+      <p><span>ElasticJS aggregation: </span>{{stringify(agg4)}}</p>
 
-            <p>===== DEMO 5 =====</p>
-            <p>Field: 'myfield'</p>
-            <p>Name: 'myAgg5'</p>
-            <p>type: 'max'</p>
+      <p>===== DEMO 5 =====</p>
+      <p>Field: 'myfield'</p>
+      <p>Name: 'myAgg5'</p>
+      <p>type: 'max'</p>
 
-            <elastic-client-aggregation-builder
-                field="myfield"
-                name="myAgg5"
-                type="max"
-                ejs-aggregation="{{agg5}}">
-            </elastic-client-aggregation-builder>
+      <elastic-client-aggregation-builder
+        field="myfield"
+        name="myAgg5"
+        type="max"
+        ejs-aggregation="{{agg5}}">
+      </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{stringify(agg5)}}</p>
+      <p><span>ElasticJS aggregation: </span>{{stringify(agg5)}}</p>
 
-            <p>===== DEMO 6 =====</p>
-            <p>Field: ''</p>
-            <p>Name: 'myAgg6'</p>
-            <p>type: 'filter'</p>
-            <p>filter: ejs.ExistsFilter('someField')</p>
+      <p>===== DEMO 6 =====</p>
+      <p>Field: ''</p>
+      <p>Name: 'myAgg6'</p>
+      <p>type: 'filter'</p>
+      <p>filter: ejs.ExistsFilter('someField')</p>
 
-            <elastic-client-aggregation-builder
-                field=""
-                name="myAgg6"
-                type="filter"
-                filter="{{createExistsFilter()}}"
-                ejs-aggregation="{{agg6}}">
-            </elastic-client-aggregation-builder>
+      <elastic-client-aggregation-builder
+        field=""
+        name="myAgg6"
+        type="filter"
+        filter="{{createExistsFilter()}}"
+        ejs-aggregation="{{agg6}}">
+      </elastic-client-aggregation-builder>
 
-            <p><span>ElasticJS aggregation: </span>{{stringify(agg6)}}</p>
+      <p><span>ElasticJS aggregation: </span>{{stringify(agg6)}}</p>
 
-        </template>
+    </template>
 
-        <script>
-            (function(document) {
-                var demo = document.querySelector('#demo');
+    <script>
+      (function(document) {
+        var demo = document.querySelector('#demo');
 
-                demo.stringify = function(ejs) {
-                    return JSON.stringify(ejs);
-                };
+        demo.stringify = function(ejs) {
+          return JSON.stringify(ejs);
+        };
 
-                demo.objectToArray = function(json) {
-                    return [json];
-                };
+        demo.objectToArray = function(json) {
+          return [json];
+        };
 
-                demo.createExistsFilter = function() {
-                    return ejs.ExistsFilter('someField');
-                };
-            })(document);
-        </script>
-    </body>
+        demo.createExistsFilter = function() {
+          return ejs.ExistsFilter('someField');
+        };
+      })(document);
+    </script>
+  </body>
 </html>

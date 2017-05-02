@@ -35,205 +35,205 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
 -->
 
 <dom-module id="elastic-client-aggregation-builder">
-    <template>
-    </template>
+  <template>
+  </template>
 
-    <script>
-        (function() {
-            Polymer({
-                is: 'elastic-client-aggregation-builder',
+  <script>
+    (function() {
+      Polymer({
+        is: 'elastic-client-aggregation-builder',
 
-                properties: {
-                    /**
-                     * (Required)
-                     *
-                     * The field for which the aggregation applies. User can set this to null or an empty string for filter aggregations since this value is ignored in that case.
-                     *
-                     * @type {String}
-                     */
-                    field: {
-                        type: String
-                    },
+        properties: {
+          /**
+           * (Required)
+           *
+           * The field for which the aggregation applies. User can set this to null or an empty string for filter aggregations since this value is ignored in that case.
+           *
+           * @type {String}
+           */
+          field: {
+            type: String
+          },
 
-                    /**
-                     * (Required)
-                     *
-                     * The name to be used for the aggregation in the elasticsearch query results.
-                     *
-                     * @type {String}
-                     */
-                    name: {
-                        type: String
-                    },
+          /**
+           * (Required)
+           *
+           * The name to be used for the aggregation in the elasticsearch query results.
+           *
+           * @type {String}
+           */
+          name: {
+            type: String
+          },
 
-                    /**
-                     * (Required)
-                     *
-                     * The type of aggregation to build.
-                     * Supported types:
-                     * terms, min, max, date_histogram
-                     *
-                     * @type {String}
-                     */
-                    type: {
-                        type: String
-                    },
+          /**
+           * (Required)
+           *
+           * The type of aggregation to build.
+           * Supported types:
+           * terms, min, max, date_histogram
+           *
+           * @type {String}
+           */
+          type: {
+            type: String
+          },
 
-                    /**
-                     * (Optional)
-                     *
-                     * The interval for date histogram aggregations.
-                     *
-                     * @type {String}
-                     * @default 'day'
-                     */
-                    interval: {
-                        type: String,
-                        value: 'day'
-                    },
+          /**
+           * (Optional)
+           *
+           * The interval for date histogram aggregations.
+           *
+           * @type {String}
+           * @default 'day'
+           */
+          interval: {
+            type: String,
+            value: 'day'
+          },
 
-                    /**
-                     * (Optional)
-                     *
-                     * The order for aggregations.  Used with the direction property.
-                     *
-                     * @type {String}
-                     * @default ''
-                     */
-                    order: {
-                        type: String,
-                        value: ''
-                    },
+          /**
+           * (Optional)
+           *
+           * The order for aggregations.  Used with the direction property.
+           *
+           * @type {String}
+           * @default ''
+           */
+          order: {
+            type: String,
+            value: ''
+          },
 
-                    /**
-                     * (Optional)
-                     *
-                     * The direction for aggregations.  Used with the order property.
-                     *
-                     * @type {String}
-                     * @default 'asc'
-                     */
-                    direction: {
-                        type: String,
-                        value: 'asc'
-                    },
+          /**
+           * (Optional)
+           *
+           * The direction for aggregations.  Used with the order property.
+           *
+           * @type {String}
+           * @default 'asc'
+           */
+          direction: {
+            type: String,
+            value: 'asc'
+          },
 
-                    /**
-                     * (Output)
-                     *
-                     * The resulting elasticjs aggregation object.
-                     *
-                     * @type {Object}
-                     */
-                    ejsAggregation: {
-                        type: Object,
-                        readOnly: true,
-                        notify: true
-                    },
+          /**
+           * (Output)
+           *
+           * The resulting elasticjs aggregation object.
+           *
+           * @type {Object}
+           */
+          ejsAggregation: {
+            type: Object,
+            readOnly: true,
+            notify: true
+          },
 
-                    /**
-                     * (Optional)
-                     *
-                     * The size count for aggregations which support size.
-                     *
-                     * @type {Number}
-                     * @default 10
-                     */
-                    count: {
-                        type: Number,
-                        value: 10
-                    },
+          /**
+           * (Optional)
+           *
+           * The size count for aggregations which support size.
+           *
+           * @type {Number}
+           * @default 10
+           */
+          count: {
+            type: Number,
+            value: 10
+          },
 
-                    /**
-                     *
-                     * The ejs filter object (used for ejs.FilterAggregations).
-                     *
-                     * @type {Object}
-                     * @default {}
-                     */
-                    filter: {
-                        type: Object,
-                        value: function() {
-                            return {};
-                        }
-                    },
+          /**
+           *
+           * The ejs filter object (used for ejs.FilterAggregations).
+           *
+           * @type {Object}
+           * @default {}
+           */
+          filter: {
+            type: Object,
+            value: function() {
+              return {};
+            }
+          },
 
-                    /**
-                     * (Optional)
-                     *
-                     * The array of elasticjs aggregation objects to nest within this elasticjs aggregation object (if any).
-                     *
-                     * @type {Array}
-                     * @default []
-                     */
-                    nestedAggregations: {
-                        type: Array,
-                        value: function() {
-                            return [];
-                        }
-                    }
-                },
+          /**
+           * (Optional)
+           *
+           * The array of elasticjs aggregation objects to nest within this elasticjs aggregation object (if any).
+           *
+           * @type {Array}
+           * @default []
+           */
+          nestedAggregations: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          }
+        },
 
-                observers : [
-                    '_buildAggregation(field, name, type, nestedAggregations, filter)',
-                    '_updateAggregation(count, order, direction)'
-                ],
+        observers : [
+          '_buildAggregation(field, name, type, nestedAggregations, filter)',
+          '_updateAggregation(count, order, direction)'
+        ],
 
-                /**
-                 * Updates the elasticjs aggregation object if the count, order, or direction changes.
-                 *
-                 * @private
-                 */
-                _updateAggregation: function() {
-                    if(this.ejsAggregation) {
-                        this._buildAggregation(this.field, this.name, this.type, this.nestedAggregations, this.filter);
-                    }
-                },
+        /**
+         * Updates the elasticjs aggregation object if the count, order, or direction changes.
+         *
+         * @private
+         */
+        _updateAggregation: function() {
+          if(this.ejsAggregation) {
+            this._buildAggregation(this.field, this.name, this.type, this.nestedAggregations, this.filter);
+          }
+        },
 
-                /**
-                 * Builds and sets the elasticjs aggregation object using the field, name, type, and nested aggregations.
-                 *
-                 * @param {String} field
-                 * @param {String} name
-                 * @param {String} type
-                 * @param {Array} nestedAggregations
-                 * @param {Object} filter
-                 * @private
-                 */
-                _buildAggregation: function(field, name, type, nestedAggregations, filter) {
-                    var ejsAggregation;
+        /**
+         * Builds and sets the elasticjs aggregation object using the field, name, type, and nested aggregations.
+         *
+         * @param {String} field
+         * @param {String} name
+         * @param {String} type
+         * @param {Array} nestedAggregations
+         * @param {Object} filter
+         * @private
+         */
+        _buildAggregation: function(field, name, type, nestedAggregations, filter) {
+          var ejsAggregation;
 
-                    // if building filter aggregation, make sure filter object is not empty
-                    if(type === 'filter' && !(Object.keys(filter).length === 0 && filter.constructor === Object)) {
-                        ejsAggregation = ejs.FilterAggregation(name).filter(filter);
-                    }
-                    if(type === 'terms') {
-                        ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);
-                    }
-                    if(type === 'min') {
-                        ejsAggregation = ejs.MinAggregation(name).field(field);
-                    }
-                    if(type === 'max') {
-                        ejsAggregation = ejs.MaxAggregation(name).field(field);
-                    }
-                    if(type === 'date_histogram') {
-                        ejsAggregation = ejs.DateHistogramAggregation(name).field(field).interval(this.interval);
-                    }
-                    if(ejsAggregation) {
-                        if(this.order && this.direction) {
-                          ejsAggregation.order(this.order, this.direction);
-                        }
-                        if(nestedAggregations) {
-                            (nestedAggregations.constructor === Array ? nestedAggregations : [nestedAggregations]).forEach(function(nestedAggregation) {
-                                if(nestedAggregation) {
-                                    ejsAggregation.aggregation(nestedAggregation);
-                                }
-                            });
-                        }
-                        this._setEjsAggregation(ejsAggregation);
-                    }
+          // if building filter aggregation, make sure filter object is not empty
+          if(type === 'filter' && !(Object.keys(filter).length === 0 && filter.constructor === Object)) {
+            ejsAggregation = ejs.FilterAggregation(name).filter(filter);
+          }
+          if(type === 'terms') {
+            ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);
+          }
+          if(type === 'min') {
+            ejsAggregation = ejs.MinAggregation(name).field(field);
+          }
+          if(type === 'max') {
+            ejsAggregation = ejs.MaxAggregation(name).field(field);
+          }
+          if(type === 'date_histogram') {
+            ejsAggregation = ejs.DateHistogramAggregation(name).field(field).interval(this.interval);
+          }
+          if(ejsAggregation) {
+            if(this.order && this.direction) {
+              ejsAggregation.order(this.order, this.direction);
+            }
+            if(nestedAggregations) {
+              (nestedAggregations.constructor === Array ? nestedAggregations : [nestedAggregations]).forEach(function(nestedAggregation) {
+                if(nestedAggregation) {
+                  ejsAggregation.aggregation(nestedAggregation);
                 }
-            });
-        })();
-    </script>
+              });
+            }
+            this._setEjsAggregation(ejsAggregation);
+          }
+        }
+      });
+    })();
+  </script>
 </dom-module>

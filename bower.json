@@ -1,7 +1,7 @@
 {
   "name": "elastic-client-aggregation-builder",
   "description": "A Polymer Element which builds an elasticjs aggregation based on the set attributes.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": [
@@ -10,7 +10,6 @@
     "elastic.js"
   ],
   "main": "elastic-client-aggregation.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/DigElements/elastic-client-aggregation-builder/",
   "ignore": [
     "/.*",
