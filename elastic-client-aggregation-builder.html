@@ -204,19 +204,19 @@ A Polymer Element which builds an elasticjs aggregation based on the set attribu
           var ejsAggregation;
 
           // if building filter aggregation, make sure filter object is not empty
-          if(type === 'filter' && !(Object.keys(filter).length === 0 && filter.constructor === Object)) {
+          if(name && type === 'filter' && !(Object.keys(filter).length === 0 && filter.constructor === Object)) {
             ejsAggregation = ejs.FilterAggregation(name).filter(filter);
           }
-          if(type === 'terms') {
+          if(field && name && type === 'terms') {
             ejsAggregation = ejs.TermsAggregation(name).field(field).size(this.count);
           }
-          if(type === 'min') {
+          if(field && name && type === 'min') {
             ejsAggregation = ejs.MinAggregation(name).field(field);
           }
-          if(type === 'max') {
+          if(field && name && type === 'max') {
             ejsAggregation = ejs.MaxAggregation(name).field(field);
           }
-          if(type === 'date_histogram') {
+          if(field && name && type === 'date_histogram') {
             ejsAggregation = ejs.DateHistogramAggregation(name).field(field).interval(this.interval);
           }
           if(ejsAggregation) {
