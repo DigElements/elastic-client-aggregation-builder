@@ -40,6 +40,7 @@ limitations under the License.
           element.type = 'terms';
           element.name = 'termsAgg';
           element.field = 'testField';
+          element.filters = [];
         });
 
         test('name is set properly', function() {
@@ -81,6 +82,7 @@ limitations under the License.
           element.type = 'terms';
           element.name = 'termsAgg';
           element.field = 'testField';
+          element.filters = [];
         });
 
         test('count is set properly', function() {
@@ -116,6 +118,7 @@ limitations under the License.
           element.type = 'min';
           element.name = 'minAgg';
           element.field = 'testField';
+          element.filters = [];
         });
 
         test('min aggregation clause is built properly', function() {
@@ -136,6 +139,7 @@ limitations under the License.
           element.type = 'max';
           element.name = 'maxAgg';
           element.field = 'testField';
+          element.filters = [];
         });
 
         test('max aggregation clause is built properly', function() {
@@ -157,6 +161,7 @@ limitations under the License.
           element.name = 'dateAgg';
           element.field = 'testField';
           element.interval = 'day';
+          element.filters = [];
         });
 
         test('interval is set properly', function() {
@@ -167,6 +172,11 @@ limitations under the License.
         test('date histogram aggregation clause is built properly', function() {
           expect(element.ejsAggregation).to.exist;
           expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('day').toJSON());
+        });
+
+        test('changing interval changes aggregation', function() {
+          element.interval = 'week';
+          expect(element.ejsAggregation.toJSON()).to.deep.equal(ejs.DateHistogramAggregation('dateAgg').field('testField').interval('week').toJSON());
         });
 
         test('does not have html content', function() {
@@ -184,6 +194,7 @@ limitations under the License.
           element.type = 'terms';
           element.name = 'testAgg';
           element.field = 'testField';
+          element.filters = [];
         });
 
         test('terms aggregation clause with order is built properly', function() {
@@ -217,6 +228,7 @@ limitations under the License.
           element.type = 'terms';
           element.name = 'testAgg';
           element.field = 'testField';
+          element.filters = [];
         });
 
         test('terms aggregation clause with nested aggregations is built properly', function() {
@@ -232,22 +244,47 @@ limitations under the License.
         });
       });
 
-      suite('<elastic-client-aggregation-builder> terms with filter aggregations', function() {
+      suite('<elastic-client-aggregation-builder> terms with filtered aggregations', function() {
         var element;
 
         setup(function() {
           element = fixture('elastic-client-aggregation-builder-fixture');
-          element.type = 'filter';
+          element.type = 'terms';
           element.name = 'testAgg';
-          element.field = null;
+          element.field = 'testField';
         });
 
-        test('filter aggregation is not built until filter object is not empty', function() {
-          var result = ejs.FilterAggregation('testAgg').filter(ejs.ExistsFilter('someField'));
+        test('aggregation is not built until filters array is not empty', function() {
+          var result = ejs.FilterAggregation('testAgg').filter(ejs.ExistsFilter('filterField')).agg(ejs.TermsAggregation('testAgg').field('testField').size(10));
 
           expect(element.ejsAggregation).to.not.exist;
 
-          element.filter = ejs.ExistsFilter('someField');
+          element.filters = [ejs.ExistsFilter('filterField')];
+          expect(element.ejsAggregation).to.exist;
+          expect(element.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
+        });
+
+        test('does not have html content', function() {
+          expect(Polymer.dom(element.root).children.length).to.equal(0);
+        });
+      });
+
+      suite('<elastic-client-aggregation-builder> terms with filtered aggregations ignoring same name', function() {
+        var element;
+
+        setup(function() {
+          element = fixture('elastic-client-aggregation-builder-fixture');
+          element.type = 'terms';
+          element.name = 'testAgg';
+          element.field = 'testField';
+        });
+
+        test('aggregation is not built until filters array is not empty', function() {
+          var result = ejs.FilterAggregation('testAgg').filter(ejs.ExistsFilter('filterField2')).agg(ejs.TermsAggregation('testAgg').field('testField').size(10));
+
+          expect(element.ejsAggregation).to.not.exist;
+
+          element.filters = [ejs.ExistsFilter('filterField1').name('testAgg'), ejs.ExistsFilter('filterField2')];
           expect(element.ejsAggregation).to.exist;
           expect(element.ejsAggregation.toJSON()).to.deep.equal(result.toJSON());
         });
